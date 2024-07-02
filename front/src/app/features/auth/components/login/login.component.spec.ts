@@ -15,6 +15,7 @@ import { AuthService } from '../../services/auth.service';
 import { Router } from '@angular/router';
 import { of, throwError } from 'rxjs';
 import { SessionInformation } from 'src/app/interfaces/sessionInformation.interface';
+import { MatButton } from '@angular/material/button';
 
 describe('LoginComponent', () => {
   let component: LoginComponent;
@@ -97,15 +98,19 @@ describe('LoginComponent', () => {
     expect(component.form.contains('password')).toBe(true);
   });
 
-  it('should mark email as invalid if it is empty', () => {
+  it('should disable submit button if email is empty', () => {
     let email = component.form.get('email');
+    let password = component.form.get('password');
     email?.setValue('');
-    expect(email?.valid).toBe(false);
+    password?.setValue('test!1234');
+    expect(component.form.valid).toBe(false);
   });
 
-/*   it('should mark password as invalid if it has less than 3 characters', () => {
+  it('should disable submit button if password is empty', () => {
+    let email = component.form.get('email');
     let password = component.form.get('password');
-    password?.setValue('qs');
-    expect(password?.valid).toBe(false);
-  }); */
+    email?.setValue('test@test.com')
+    password?.setValue('');
+    expect(component.form.valid).toBe(false);
+  });
 });
