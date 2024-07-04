@@ -1,6 +1,6 @@
 /// <reference types="cypress" />
 
-describe('Register spec', () => {
+describe('Register Component', () => {
 
   beforeEach(() => {
     cy.visit('/register');

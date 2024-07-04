@@ -1,6 +1,6 @@
 /// <reference types="cypress" />
 
-describe('Login spec', () => {
+describe('Login Component', () => {
 
   beforeEach(() => {
     cy.visit('/login');
