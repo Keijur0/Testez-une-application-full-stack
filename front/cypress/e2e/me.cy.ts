@@ -123,14 +123,8 @@ describe('Me Component', () => {
                 body: {}
             });
             cy.get('button[mat-raised-button]').click();
-
-            it('should show a success message', () => {
-                cy.get('simple-snack-bar').should('contain', 'Your account has been deleted !')
-            });
-
-            it('should navigate to home page', () => {
-                cy.url().should('be', '/');
-            });
+            cy.get('simple-snack-bar').should('contain', 'Your account has been deleted !');
+            cy.url().should('be', '/');
 
         });
 
