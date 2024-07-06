@@ -51,7 +51,7 @@ describe('Register Component', () => {
     cy.get('input[formControlName=email').type('invalid-email');
     cy.get('input[formControlName=password]').type('test!1234');
 
-    cy.get('button[type=submit').should('be.disabled');
+    cy.get('button[type=submit]').should('be.disabled');
   });
 
   it('should navigate to login page on successful registration', () => {
