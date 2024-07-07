@@ -30,18 +30,8 @@ public class UserServiceTest {
     @Mock
     private UserRepository userRepository;
 
-/*     private User mockUser; */
-
     @BeforeEach
     public void setUp() {
-/*         mockUser = User.builder()
-        .id(1L)
-        .email("john.wick@test.com")
-        .firstName("John")
-        .lastName("Wick")
-        .password("test!1234")
-        .admin(false)
-        .build(); */
         userService = new UserService(userRepository);
     }
 
