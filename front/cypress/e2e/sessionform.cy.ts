@@ -11,6 +11,16 @@ describe('Session Form Component', () => {
         admin: true 
     };
 
+    const mockNonAdminLogin = {
+        token: 'jwt',
+        type: 'Bearer',
+        id: 1,
+        username: 'john.wick@test.com',
+        firstName: 'John',
+        lastName: 'Wick',
+        admin: false 
+    };
+
     const mockTeacher1 = {
         id: 1,
         lastName: 'Yoga1',
@@ -203,11 +213,9 @@ describe('Session Form Component', () => {
             cy.get('input[formControlName=password]').type('test!1234{enter}{enter}');
 
             cy.url().should('contain', '/sessions');
-            cy.wait('@getSessions');
 
             cy.get('button').contains('Edit').click();
             cy.url().should('contain', '/sessions/update/1');
-            cy.wait('@getSession');
         });
 
         it('should show back button', () => {
@@ -306,6 +314,41 @@ describe('Session Form Component', () => {
             cy.get('mat-card-content').get('span.ml1').eq(3).should('contain', 'July 6, 2024');
             cy.get('div.description').should('contain', mockSessionEdit.description);
         });
+    });
 
+    describe('Non admin user', () => {
+        beforeEach(() => {
+            cy.intercept('POST', '/api/auth/login', {
+                statusCode: 200,
+                body: mockNonAdminLogin
+            }).as('postNonAdminLogin');
+
+            cy.intercept('GET', '/api/session', {
+                statusCode: 200,
+                body: mockSessions
+            }).as('getSessions');
+
+            cy.intercept('GET', '/api/session/1', {
+                statusCode: 200,
+                body: mockSession
+            }).as('getSession');
+
+            cy.visit('/login');
+
+            cy.get('input[formControlName=email]').type('john.wick@test.com');
+            cy.get('input[formControlName=password]').type('test!1234{enter}{enter}');
+
+            cy.url().should('contain', '/sessions');
+        });
+
+        it('should redirect to login page when trying to access create form', () => {
+            cy.visit('/sessions/create');
+            cy.url().should('contain', '/login');
+        });
+
+        it('should redirect to login page when trying to access update form', () => {
+            cy.visit('/sessions/update/1');
+            cy.url().should('contain', '/login');
+        });
     });
 });
