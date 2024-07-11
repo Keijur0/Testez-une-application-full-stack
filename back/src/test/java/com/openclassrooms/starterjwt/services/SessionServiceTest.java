@@ -19,7 +19,6 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.springframework.boot.test.context.SpringBootTest;
 
 import com.openclassrooms.starterjwt.exception.BadRequestException;
 import com.openclassrooms.starterjwt.exception.NotFoundException;
@@ -30,7 +29,6 @@ import com.openclassrooms.starterjwt.repository.UserRepository;
 
 
 
-@SpringBootTest
 @DisplayName("SessionService tests")
 public class SessionServiceTest {
 
@@ -179,6 +177,15 @@ public class SessionServiceTest {
         when(sessionRepository.findById(1L)).thenReturn(Optional.empty());
 
         assertThrows(NotFoundException.class, () -> sessionService.participate(1L, userId));
+    }
+
+    @Test
+    @DisplayName("Participate to session test for non-existing user and session")
+    public void testParticipate_UserAndSessionDoNotExist() {
+        when(userRepository.findById(1L)).thenReturn(Optional.empty());
+        when(sessionRepository.findById(1L)).thenReturn(Optional.empty());
+
+        assertThrows(NotFoundException.class, () -> sessionService.participate(1L, 1L));
     }
 
     @Test
