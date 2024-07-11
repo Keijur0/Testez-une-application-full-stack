@@ -19,6 +19,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
 
 import com.openclassrooms.starterjwt.exception.BadRequestException;
 import com.openclassrooms.starterjwt.exception.NotFoundException;
@@ -43,7 +44,7 @@ public class SessionServiceTest {
 
     @BeforeEach
     public void setUp() {
-        sessionService = new SessionService(sessionRepository, userRepository);
+        MockitoAnnotations.openMocks(this);
     }
 
     @Test

@@ -50,6 +50,7 @@ public class UserControllerTest {
     }
 
     @Test
+    @DisplayName("Find user by id test with valid user")
     public void testFindById_Success() {
         User user = new User();
         UserDto userDto = userMapper.toDto(user);
@@ -60,23 +61,28 @@ public class UserControllerTest {
 
         ResponseEntity<?> response = userController.findById("1");
         assertEquals(HttpStatus.OK, response.getStatusCode());
+        verify(userService, times(1)).findById(1L);
     }
 
     @Test
+    @DisplayName("Find user by id with invalid id format")
     public void testFindById_InvalidFormat() {
         ResponseEntity<?> response = userController.findById("a");
         assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
     }
 
     @Test
+    @DisplayName("Find user by id with non-existing user")
     public void testFindById_UserNotFound() {
         when(userService.findById(1L)).thenReturn(null);
 
         ResponseEntity<?> response = userController.findById("1");
         assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
+        verify(userService, times(1)).findById(1L);
     }
 
     @Test
+    @DisplayName("Delete user by id with valid user")
     public void testDelete_Success() {
         User user = new User();
         user.setId(1L);
@@ -95,6 +101,7 @@ public class UserControllerTest {
     }
 
     @Test
+    @DisplayName("Delete user by id with invalid id format")
     public void testDelete_InvalidFormat() {
         ResponseEntity<?> response = userController.save("a");
         assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
@@ -102,6 +109,7 @@ public class UserControllerTest {
     }
 
     @Test
+    @DisplayName("Delete user by id with non-existing user")
     public void testDelete_NotFound() {
         when(userService.findById(1L)).thenReturn(null);
 
@@ -111,6 +119,7 @@ public class UserControllerTest {
     }
 
     @Test
+    @DisplayName("Delete user by id from different user")
     public void testDelete_Unauthorized() {
         User user = new User();
         user.setId(1L);

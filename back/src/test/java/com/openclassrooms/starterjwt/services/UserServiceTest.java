@@ -14,6 +14,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
 
 import com.openclassrooms.starterjwt.models.User;
 import com.openclassrooms.starterjwt.repository.UserRepository;
@@ -30,7 +31,7 @@ public class UserServiceTest {
 
     @BeforeEach
     public void setUp() {
-        userService = new UserService(userRepository);
+        MockitoAnnotations.openMocks(this);
     }
 
     @Test

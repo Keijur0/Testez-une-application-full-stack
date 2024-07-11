@@ -16,6 +16,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
 
 import com.openclassrooms.starterjwt.models.Teacher;
 import com.openclassrooms.starterjwt.repository.TeacherRepository;
@@ -30,7 +31,7 @@ public class TeacherServiceTest {
 
     @BeforeEach
     public void setUp() {
-        teacherService = new TeacherService(teacherRepository);
+        MockitoAnnotations.openMocks(this);
     }
 
     @Test
