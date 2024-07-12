@@ -111,19 +111,19 @@ public class TeacherMapperTest {
         List<Teacher> teachers = new ArrayList<Teacher>();
         teachers.add(teacher1);
         teachers.add(teacher2);
-        List<TeacherDto> teacherDtos = teacherMapper.toDto(teachers);
+        List<TeacherDto> teacherDtoList = teacherMapper.toDto(teachers);
 
-        assertNotNull(teacherDtos);
-        assertEquals(2, teacherDtos.size());
+        assertNotNull(teacherDtoList);
+        assertEquals(2, teacherDtoList.size());
 
-        TeacherDto teacherDto1 = teacherDtos.get(0);
+        TeacherDto teacherDto1 = teacherDtoList.get(0);
         assertEquals(teacher1.getId(), teacherDto1.getId());
         assertEquals(teacher1.getLastName(), teacherDto1.getLastName());
         assertEquals(teacher1.getFirstName(), teacherDto1.getFirstName());
         assertEquals(teacher1.getCreatedAt(), teacherDto1.getCreatedAt());
         assertEquals(teacher1.getUpdatedAt(), teacherDto1.getUpdatedAt());
 
-        TeacherDto teacherDto2 = teacherDtos.get(1);
+        TeacherDto teacherDto2 = teacherDtoList.get(1);
         assertEquals(teacher2.getId(), teacherDto2.getId());
         assertEquals(teacher2.getLastName(), teacherDto2.getLastName());
         assertEquals(teacher2.getFirstName(), teacherDto2.getFirstName());
