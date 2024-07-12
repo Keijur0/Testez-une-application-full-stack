@@ -1,8 +1,5 @@
 package com.openclassrooms.starterjwt.security.jwt;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -16,7 +13,6 @@ import javax.servlet.http.HttpServletResponse;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.mockito.ArgumentCaptor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
@@ -25,37 +21,37 @@ import org.springframework.security.core.AuthenticationException;
 @DisplayName("Auth entry point jwt tests")
 public class AuthEntryPointJwtTest {
     
-        @InjectMocks
-        private AuthEntryPointJwt authEntryPointJwt;
+    @InjectMocks
+    private AuthEntryPointJwt authEntryPointJwt;
 
-        @Mock
-        private HttpServletRequest request;
+    @Mock
+    private HttpServletRequest request;
 
-        @Mock
-        private HttpServletResponse response;
+    @Mock
+    private HttpServletResponse response;
 
-        @Mock
-        private AuthenticationException authException;
+    @Mock
+    private AuthenticationException authException;
 
-        @Mock
-        private ServletOutputStream outputStream;
+    @Mock
+    private ServletOutputStream outputStream;
 
-        @BeforeEach
-        public void setUp() {
-            MockitoAnnotations.openMocks(this);
-        }
+    @BeforeEach
+    public void setUp() {
+        MockitoAnnotations.openMocks(this);
+    }
 
-        @DisplayName("Commence method test Unauthorized response")
-        @Test
-        public void testCommence() throws IOException, ServletException {
-            when(response.getOutputStream()).thenReturn(outputStream);
-            when(request.getServletPath()).thenReturn("/path");
-            when(authException.getMessage()).thenReturn("Unauthorized error");
+    @DisplayName("Commence method test Unauthorized response")
+    @Test
+    public void testCommence() throws IOException, ServletException {
+        when(response.getOutputStream()).thenReturn(outputStream);
+        when(request.getServletPath()).thenReturn("/path");
+        when(authException.getMessage()).thenReturn("Unauthorized error");
 
-            authEntryPointJwt.commence(request, response, authException);
+        authEntryPointJwt.commence(request, response, authException);
 
-            verify(response).setContentType("application/json");
-            verify(response).setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-        }
+        verify(response).setContentType("application/json");
+        verify(response).setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+    }
 
 }
