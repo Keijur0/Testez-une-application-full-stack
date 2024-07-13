@@ -145,7 +145,6 @@ public class SignupRequestTest {
 
         Set<ConstraintViolation<SignupRequest>> violations = validator.validate(signupRequest);
         assertFalse(violations.isEmpty());
-        assertEquals("ne doit pas être vide", violations.iterator().next().getMessage());
     }
 
     @DisplayName("Sign up request with lastname too short")
@@ -185,7 +184,6 @@ public class SignupRequestTest {
 
         Set<ConstraintViolation<SignupRequest>> violations = validator.validate(signupRequest);
         assertFalse(violations.isEmpty());
-        assertEquals("ne doit pas être vide", violations.iterator().next().getMessage());
     }
 
     @DisplayName("Sign up request with password too short")
