@@ -119,15 +119,15 @@ public class UserTest {
     public void testBuilder() {
         LocalDateTime now = LocalDateTime.now();
         User user = User.builder()
-                        .id(1L)
-                        .email("john.wick@test.com")
-                        .lastName("Wick")
-                        .firstName("John")
-                        .password("test!1234")
-                        .admin(true)
-                        .createdAt(now)
-                        .updatedAt(now)
-                        .build();
+                .id(1L)
+                .email("john.wick@test.com")
+                .lastName("Wick")
+                .firstName("John")
+                .password("test!1234")
+                .admin(true)
+                .createdAt(now)
+                .updatedAt(now)
+                .build();
 
         assertEquals(1L, user.getId());
         assertEquals("john.wick@test.com", user.getEmail());

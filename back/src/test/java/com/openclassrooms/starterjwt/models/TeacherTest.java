@@ -82,12 +82,12 @@ public class TeacherTest {
     public void testBuilder() {
         LocalDateTime now = LocalDateTime.now();
         Teacher teacher = Teacher.builder()
-                                 .id(1L)
-                                 .lastName("Wick")
-                                 .firstName("John")
-                                 .createdAt(now)
-                                 .updatedAt(now)
-                                 .build();
+                .id(1L)
+                .lastName("Wick")
+                .firstName("John")
+                .createdAt(now)
+                .updatedAt(now)
+                .build();
 
         assertEquals(1L, teacher.getId());
         assertEquals("Wick", teacher.getLastName());
