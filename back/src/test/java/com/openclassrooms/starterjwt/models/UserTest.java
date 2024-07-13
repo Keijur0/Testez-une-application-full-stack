@@ -11,6 +11,7 @@ import java.time.LocalDateTime;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+@DisplayName("User model tests")
 public class UserTest {
 
     @DisplayName("All args constructor test")
