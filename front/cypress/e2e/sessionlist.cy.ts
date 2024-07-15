@@ -56,17 +56,17 @@ export default function SessionListSpec() {
                 cy.intercept('POST', '/api/auth/login', {
                     statusCode: 200,
                     body: mockAdminLogin
-                });
+                }).as('AdminLogin');
     
                 cy.intercept('GET', '/api/user/1', {
                     statusCode: 200,
                     body: mockAdminUser
-                });
+                }).as('GetAdminUser');
     
                 cy.intercept('GET', '/api/session', {
                     statusCode: 200,
                     body: mockSessions
-                });
+                }).as('GetSessions');
     
                 cy.get('input[formControlName=email]').type('john.wick@test.com');
                 cy.get('input[formControlName=password]').type('test!1234{enter}{enter}');
@@ -146,17 +146,17 @@ export default function SessionListSpec() {
                 cy.intercept('POST', '/api/auth/login', {
                     statusCode: 200,
                     body: mockLogin
-                });
+                }).as('UserLogin');
     
                 cy.intercept('GET', '/api/user/1', {
                     statusCode: 200,
                     body: mockUser
-                });
+                }).as('GetUser');
     
                 cy.intercept('GET', '/api/session', {
                     statusCode: 200,
                     body: mockSessions
-                });
+                }).as('GetSessions');
     
                 cy.get('input[formControlName=email]').type('john.wick@test.com');
                 cy.get('input[formControlName=password]').type('test!1234{enter}{enter}');

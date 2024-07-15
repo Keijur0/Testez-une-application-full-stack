@@ -59,7 +59,7 @@ export default function RegisterSpec() {
       cy.intercept('POST', '/api/auth/register', {
         statusCode: 200,
         body: {}
-      }).as('register');
+      }).as('Register');
   
       cy.get('input[formControlName=firstName]').type('test');
       cy.get('input[formControlName=lastName]').type('test');
@@ -75,7 +75,7 @@ export default function RegisterSpec() {
       cy.intercept('POST', '/api/auth/register', {
         statusCode: 400,
         body: { message: 'Bad Request' }
-      }).as('register');
+      }).as('RegisterBadRequest');
   
       cy.get('input[formControlName=firstName]').type('test');
       cy.get('input[formControlName=lastName]').type('test');

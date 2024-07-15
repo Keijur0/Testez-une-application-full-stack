@@ -63,32 +63,32 @@ export default function SessionDetailSpec() {
                 cy.intercept('POST', '/api/auth/login', {
                     statusCode: 200,
                     body: mockAdminLogin
-                });
+                }).as('AdminLogin');
     
                 cy.intercept('GET', '/api/user/1', {
                     statusCode: 200,
                     body: mockAdminUser
-                });
+                }).as('GetAdmin');
     
                 cy.intercept('GET', '/api/teacher/1', {
                     statusCode: 200,
                     body: mockTeacher1
-                });
+                }).as('GetTeacher1');
     
                 cy.intercept('GET', '/api/session', {
                     statusCode: 200,
                     body: mockSessions
-                });
+                }).as('GetSessions');
     
                 cy.intercept('GET', '/api/session/1', {
                     statusCode: 200,
                     body: mockSession1
-                });
+                }).as('GetSession1');
     
                 cy.intercept('DELETE', '/api/session/1', {
                     statusCode: 200,
                     body: {}
-                })
+                }).as('DeleteSession1')
     
                 cy.get('input[formControlName=email]').type('john.wick@test.com');
                 cy.get('input[formControlName=password]').type('test!1234{enter}{enter}');
@@ -166,27 +166,27 @@ export default function SessionDetailSpec() {
                 cy.intercept('POST', '/api/auth/login', {
                     statusCode: 200,
                     body: mockLogin
-                });
+                }).as('UserLogin');
     
                 cy.intercept('GET', '/api/user/1', {
                     statusCode: 200,
                     body: mockUser
-                });
+                }).as('GetUser');
     
                 cy.intercept('GET', '/api/teacher/1', {
                     statusCode: 200,
                     body: mockTeacher1
-                });
+                }).as('GetTeacher1');
     
                 cy.intercept('GET', '/api/session', {
                     statusCode: 200,
                     body: mockSessions
-                });
+                }).as('GetSessions');
     
                 cy.intercept('GET', '/api/session/1', {
                     statusCode: 200,
                     body: mockSession1
-                });
+                }).as('GetSession1');
     
                 cy.get('input[formControlName=email]').type('john.wick@test.com');
                 cy.get('input[formControlName=password]').type('test!1234{enter}{enter}');
@@ -267,32 +267,32 @@ export default function SessionDetailSpec() {
                 cy.intercept('POST', '/api/auth/login', {
                     statusCode: 200,
                     body: mockLogin
-                });
+                }).as('Login');
     
                 cy.intercept('GET', '/api/user/1', {
                     statusCode: 200,
                     body: mockUser
-                });
+                }).as('GetUser');
     
                 cy.intercept('GET', '/api/teacher/1', {
                     statusCode: 200,
                     body: mockTeacher1
-                });
+                }).as('GetTeacher');
     
                 cy.intercept('GET', '/api/session', {
                     statusCode: 200,
                     body: mockSessions
-                });
+                }).as('GetSessions');
     
                 cy.intercept('POST', '/api/session/1/participate/1', {
                     statusCode: 200,
                     body: {}
-                });
+                }).as('Participate');
     
                 cy.intercept('DELETE', '/api/session/1/participate/1', {
                     statusCode: 200,
                     body: {}
-                });
+                }).as('Unparticipate');
     
                 cy.get('input[formControlName=email]').type('john.wick@test.com');
                 cy.get('input[formControlName=password]').type('test!1234{enter}{enter}');
@@ -304,7 +304,7 @@ export default function SessionDetailSpec() {
                 cy.intercept('GET', '/api/session/1', {
                     statusCode: 200,
                     body: mockSession1
-                });
+                }).as('GetSession1');
     
                 cy.get('mat-card.item').eq(0).get('span.ml1').contains('Detail').click();
                 cy.url().should('contain', '/sessions/detail/1');
@@ -312,7 +312,7 @@ export default function SessionDetailSpec() {
                 cy.intercept('GET', '/api/session/1', {
                     statusCode: 200,
                     body: mockSession1WithoutUser
-                });
+                }).as('GetSessionWithoutUser');
     
                 cy.get('button').contains('Do not participate').click();
     
@@ -324,7 +324,7 @@ export default function SessionDetailSpec() {
                 cy.intercept('GET', '/api/session/1', {
                     statusCode: 200,
                     body: mockSession1WithoutUser
-                });
+                }).as('GetSessionWithoutUser');;
     
                 cy.get('mat-card.item').eq(0).get('span.ml1').contains('Detail').click();
                 cy.url().should('contain', '/sessions/detail/1');
@@ -332,7 +332,7 @@ export default function SessionDetailSpec() {
                 cy.intercept('GET', '/api/session/1', {
                     statusCode: 200,
                     body: mockSession1
-                });
+                }).as('GetSession1');
     
                 cy.get('button').contains('Participate').click();
     
