@@ -58,12 +58,12 @@ export default function SessionFormSpec() {
             cy.intercept('POST', '/api/auth/login', {
                 statusCode: 200,
                 body: mockAdminLogin
-            });
+            }).as('AdminLogin');
     
             cy.intercept('GET', '/api/teacher', {
                 statusCode: 200,
                 body: mockTeachers
-            });
+            }).as('GetTeachers');
         });
     
         describe('Create form', () => {
@@ -71,7 +71,7 @@ export default function SessionFormSpec() {
                 cy.intercept('GET', '/api/session', {
                     statusCode: 200,
                     body: {}
-                });
+                }).as('GetSessions');
     
                 cy.visit('/login');
     
@@ -168,12 +168,12 @@ export default function SessionFormSpec() {
                 cy.intercept('POST', '/api/session', {
                     statusCode: 200,
                     body: mockSession
-                });
+                }).as('CreateSession');
     
                 cy.intercept('GET', 'api/session', {
                     statusCode: 200,
                     body: mockSessions
-                });
+                }).as('GetSessions');
     
                 cy.get('button[type="submit"').click();
                 cy.url().should('contain', '/sessions');
@@ -202,12 +202,12 @@ export default function SessionFormSpec() {
                 cy.intercept('GET', '/api/session', {
                     statusCode: 200,
                     body: mockSessions
-                }).as('getSessions');
+                }).as('GetSessions');
     
                 cy.intercept('GET', '/api/session/1', {
                     statusCode: 200,
                     body: mockSession
-                }).as('getSession');
+                }).as('GetSession1');
     
                 cy.visit('/login');
     
@@ -248,7 +248,8 @@ export default function SessionFormSpec() {
                 cy.intercept('PUT', '/api/session/1', {
                     statusCode: 200,
                     body: mockSession
-                });
+                }).as('UpdateSession');
+
                 cy.get('button[type="submit"]').click();
                 cy.url().should('contain', '/sessions');
                 cy.get('simple-snack-bar').should('contain', 'Session updated !');
@@ -261,6 +262,7 @@ export default function SessionFormSpec() {
                 cy.url().should('contain', '/sessions');
                 cy.get('mat-card.item').should('contain', mockSession.name);
             });
+
             it ('should update session info', () => {
                 const mockSessionEdit = {
                     id: 1,
@@ -278,22 +280,22 @@ export default function SessionFormSpec() {
                 cy.intercept('PUT', '/api/session/1', {
                     statusCode: 200,
                     body: mockSessionEdit
-                }).as('putSessionEdit');
+                }).as('UpdateSessionEdit');
     
                 cy.intercept('GET', '/api/session/1', {
                     statusCode: 200,
                     body: mockSessionEdit
-                }).as('getSessionEdit');
+                }).as('GetSessionEdit');
     
                 cy.intercept('GET', '/api/sessions', {
                     statusCode: 200,
                     body: mockSessionsEdit
-                }).as('getSessionsEdit');
+                }).as('GetSessionsEdit');
     
                 cy.intercept('GET', '/api/teacher/2', {
                     statusCode: 200,
                     body: mockTeacher2
-                })
+                }).as('GetTeacher2');
                 
                 cy.get('input[formControlName="name"]').clear().type('Edit Yoga Session 1');
                 cy.get('input[formControlName="date"]').type('2024-07-06');
@@ -323,17 +325,17 @@ export default function SessionFormSpec() {
                 cy.intercept('POST', '/api/auth/login', {
                     statusCode: 200,
                     body: mockNonAdminLogin
-                }).as('postNonAdminLogin');
+                }).as('NonAdminLogin');
     
                 cy.intercept('GET', '/api/session', {
                     statusCode: 200,
                     body: mockSessions
-                }).as('getSessions');
+                }).as('GetSessions');
     
                 cy.intercept('GET', '/api/session/1', {
                     statusCode: 200,
                     body: mockSession
-                }).as('getSession');
+                }).as('GetSession1');
     
                 cy.visit('/login');
     

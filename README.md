@@ -106,6 +106,10 @@ Pour utiliser l'application, rendez vous à l'url suivante sur votre navigateur 
 
 `http://localhost:4200`
 
+Les identifiants admin par défaut sont: 
+Username: `yoga@studio.com`
+Password: `test!1234`
+
 ## Tests
 
 ### Frontend

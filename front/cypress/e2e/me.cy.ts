@@ -16,7 +16,7 @@ export default function MeSpec() {
                         lastName: 'Wick',
                         admin: true
                     }
-                });
+                }).as('LoginSuccess');
 
                 cy.get('input[formControlName=email]').type('john.wick@test.com');
                 cy.get('input[formControlName=password]').type('test!1234{enter}{enter}');
@@ -33,7 +33,7 @@ export default function MeSpec() {
                         createdAt: '2024-07-02T00:00:00Z',
                         updatedAt: '2024-07-03T00:00:00Z'
                     }
-                })
+                }).as("GetAdminUser");
 
                 cy.get('span.link').contains('Account').click();
             });
@@ -77,7 +77,7 @@ export default function MeSpec() {
                         lastName: 'Wick',
                         admin: false
                     }
-                });
+                }).as('LoginSuccess');
 
                 cy.get('input[formControlName=email]').type('john.wick@test.com');
                 cy.get('input[formControlName=password]').type('test!1234{enter}{enter}');
@@ -94,7 +94,7 @@ export default function MeSpec() {
                         createdAt: '2024-07-02T00:00:00Z',
                         updatedAt: '2024-07-03T00:00:00Z'
                     }
-                })
+                }).as('GetNonAdminUser');
 
                 cy.get('span.link').contains('Account').click();
             });
@@ -122,7 +122,8 @@ export default function MeSpec() {
                 cy.intercept('DELETE', '/api/user/1', {
                     statusCode: 200,
                     body: {}
-                });
+                }).as('Delete');
+                
                 cy.get('button[mat-raised-button]').click();
                 cy.get('simple-snack-bar').should('contain', 'Your account has been deleted !');
                 cy.url().should('eq', 'http://localhost:4200/'); 

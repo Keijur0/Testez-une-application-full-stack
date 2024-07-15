@@ -16,7 +16,7 @@ export default function LoginSpec() {
       cy.intercept('POST', '/api/auth/login', {
         statusCode: 401,
         body: { message: 'Unauthorized' }
-      })
+      }).as('UnauthorizedLogin');
 
       cy.get('input[formControlName=email]').type('invaliduser@test.com');
       cy.get('input[formControlName=password]').type('invalidpassword{enter}{enter}');
@@ -34,14 +34,14 @@ export default function LoginSpec() {
           lastName: 'lastName',
           admin: true
         },
-      })
+      }).as('Login');
 
       cy.intercept(
         {
           method: 'GET',
           url: '/api/session',
         },
-        []).as('session')
+        []).as('Session')
 
       cy.get('input[formControlName=email]').type("yoga@studio.com")
       cy.get('input[formControlName=password]').type(`${"test!1234"}{enter}{enter}`)
