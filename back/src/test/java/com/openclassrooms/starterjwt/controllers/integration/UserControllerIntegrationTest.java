@@ -129,7 +129,6 @@ public class UserControllerIntegrationTest {
                 .andExpect(status().isUnauthorized());
         
         userRepository.deleteById(user.getId());
-
     }
 
     @DisplayName("Delete user by id with non-existing user")

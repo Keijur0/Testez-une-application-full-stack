@@ -5,6 +5,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import java.util.ArrayList;
@@ -25,7 +26,6 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.test.web.servlet.MockMvc;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.openclassrooms.starterjwt.dto.SessionDto;
 import com.openclassrooms.starterjwt.models.Session;
@@ -69,7 +69,8 @@ public class SessionControllerIntegrationTest {
     public void testFindById_SessionExists() throws Exception {
         mockMvc.perform(get("/api/session/1")
                         .header(HttpHeaders.AUTHORIZATION, "Bearer " + token))
-                .andExpect(status().isOk());
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.id").value("1"));
     }
 
     @DisplayName("Find session by id with non-existing session")
@@ -94,12 +95,14 @@ public class SessionControllerIntegrationTest {
         mockMvc.perform(get("/api/session")
                         .header(HttpHeaders.AUTHORIZATION, "Bearer " + token))
                 .andExpect(status().isOk())
-                .andExpect(content().contentType(MediaType.APPLICATION_JSON));
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                .andExpect(jsonPath("$.[0].id").value("1"))
+                .andExpect(jsonPath("$.[1].id").value("2"));
     }
 
     @DisplayName("Create session")
     @Test
-    public void testCreate() throws JsonProcessingException, Exception {
+    public void testCreate() throws Exception {
         SessionDto sessionDto = new SessionDto();
         sessionDto.setName("Yoga Session Create");
         sessionDto.setDate(new Date());
@@ -110,12 +113,13 @@ public class SessionControllerIntegrationTest {
                         .header(HttpHeaders.AUTHORIZATION, "Bearer " + token)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(mapper.writeValueAsString(sessionDto)))
-                .andExpect(status().isOk());
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.name").value("Yoga Session Create"));
     }
 
     @DisplayName("Update session")
     @Test
-    public void testUpdate() throws JsonProcessingException, Exception {
+    public void testUpdate() throws Exception {
         Teacher teacher = Teacher.builder()
                 .id(1L)
                 .firstName("Teacher1")
@@ -140,7 +144,11 @@ public class SessionControllerIntegrationTest {
                         .header(HttpHeaders.AUTHORIZATION, "Bearer " + token)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(mapper.writeValueAsString(sessionDto)))
-                .andExpect(status().isOk());
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.name").value("Updated"))
+                .andExpect(jsonPath("$.description").value("Updated"));
+        
+        sessionService.delete(session.getId());
     }
 
     @DisplayName("Delete session by id with existing session")
@@ -195,6 +203,8 @@ public class SessionControllerIntegrationTest {
         mockMvc.perform(post("/api/session/" + session.getId() + "/participate/1")
                         .header(HttpHeaders.AUTHORIZATION, "Bearer " + token))
                 .andExpect(status().isOk());
+
+        sessionService.delete(session.getId());
     }
 
     @DisplayName("Add participation with non existing user")
@@ -212,6 +222,8 @@ public class SessionControllerIntegrationTest {
         mockMvc.perform(post("/api/session/" + session.getId() + "/participate/99999")
                         .header(HttpHeaders.AUTHORIZATION, "Bearer " + token))
                 .andExpect(status().isNotFound());
+        
+        sessionService.delete(session.getId());
     }
 
     @DisplayName("Add participation with user already participating")
@@ -239,6 +251,8 @@ public class SessionControllerIntegrationTest {
         mockMvc.perform(post("/api/session/" + session.getId() + "/participate/1")
                         .header(HttpHeaders.AUTHORIZATION, "Bearer " + token))
                 .andExpect(status().isBadRequest());
+
+        sessionService.delete(session.getId());
     }
 
     @DisplayName("Add participation with non existing session")
@@ -274,6 +288,8 @@ public class SessionControllerIntegrationTest {
         mockMvc.perform(delete("/api/session/" + session.getId() + "/participate/1")
                         .header(HttpHeaders.AUTHORIZATION, "Bearer " + token))
                 .andExpect(status().isOk());
+        
+        sessionService.delete(session.getId());
     }
 
     @DisplayName("Cancel participation with non-existing user")
@@ -290,6 +306,8 @@ public class SessionControllerIntegrationTest {
         mockMvc.perform(delete("/api/session/" + session.getId() + "/participate/1")
                         .header(HttpHeaders.AUTHORIZATION, "Bearer " + token))
                 .andExpect(status().isBadRequest());
+        
+        sessionService.delete(session.getId());
     }
 
     @DisplayName("Cancel participation with non-existing session")
