@@ -81,6 +81,14 @@ Pour vérifier si la base a été installée tappez:
 
 `SHOW COLUMNS FROM <nom de la table>` pour voir le nom des colonnes de chaque table
 
+## Installation des dépendances
+
+### Frontend
+Placez vous dans le dossier `/front` du projet, exécutez la commande `npm install`.
+
+### Backend
+Placez vous dans le dossier `/back` du projet, exécutez la commande `mvn clean install`.
+
 ## Lancer le projet Java (API / Backend)
 Pour lancer le projet Java, il vous faut d'abord créer les variables d'environnement pour Java et Maven, pointant vers leurs dossiers respectifs `/bin`.
 
