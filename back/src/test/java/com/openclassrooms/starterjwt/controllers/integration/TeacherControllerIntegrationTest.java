@@ -20,6 +20,7 @@ import com.openclassrooms.starterjwt.security.jwt.JwtUtils;
 
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 
 @DisplayName("TeacherController integration tests")
 @AutoConfigureMockMvc
@@ -52,7 +53,8 @@ public class TeacherControllerIntegrationTest {
         mockMvc.perform(get("/api/teacher/1")
                         .header(HttpHeaders.AUTHORIZATION, "Bearer " + token))
                 .andExpect(status().isOk())
-                .andExpect(content().contentType(MediaType.APPLICATION_JSON));
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                .andExpect(jsonPath("$.id").value("1"));
     }
 
     @DisplayName("Find teacher by id with non-existing teacher")
@@ -77,6 +79,8 @@ public class TeacherControllerIntegrationTest {
         mockMvc.perform(get("/api/teacher")
                         .header(HttpHeaders.AUTHORIZATION, "Bearer " + token))
                 .andExpect(status().isOk())
-                .andExpect(content().contentType(MediaType.APPLICATION_JSON));
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                .andExpect(jsonPath("$.[0].id").value("1"))
+                .andExpect(jsonPath("$.[1].id").value("2"));;
     }
 }
