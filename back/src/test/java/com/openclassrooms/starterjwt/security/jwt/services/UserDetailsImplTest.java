@@ -1,6 +1,7 @@
 package com.openclassrooms.starterjwt.security.jwt.services;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -115,6 +116,9 @@ public class UserDetailsImplTest {
                 .password("password1")
                 .build();
 
+
+        assertFalse(userDetails1.getAdmin());
+        assertTrue(userDetails2.getAdmin());
         assertEquals(userDetails1, userDetails2);
         assertNotEquals(userDetails1, userDetails3);
         assertNotEquals(userDetails1, userDetails4);

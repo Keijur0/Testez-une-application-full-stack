@@ -25,7 +25,9 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.MvcResult;
 
+import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.openclassrooms.starterjwt.dto.SessionDto;
 import com.openclassrooms.starterjwt.models.Session;
@@ -109,12 +111,21 @@ public class SessionControllerIntegrationTest {
         sessionDto.setTeacher_id(1L);
         sessionDto.setDescription("Yoga Session Create desc");
 
-        mockMvc.perform(post("/api/session")
+        MvcResult result = mockMvc.perform(post("/api/session")
                         .header(HttpHeaders.AUTHORIZATION, "Bearer " + token)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(mapper.writeValueAsString(sessionDto)))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.name").value("Yoga Session Create"));
+                .andExpect(jsonPath("$.name").value("Yoga Session Create"))
+                .andReturn();
+        
+        // Get the session id to delete it
+        String response = result.getResponse().getContentAsString();
+        JsonNode json = mapper.readTree(response);
+
+        Long sessionId = json.get("id").asLong();
+        sessionService.delete(sessionId);
+
     }
 
     @DisplayName("Update session")
