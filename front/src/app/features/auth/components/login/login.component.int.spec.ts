@@ -22,12 +22,17 @@ describe('LoginComponent Integration', () => {
   let router: Router;
   let sessionService: SessionService;
 
+  const mockRouter = {
+    navigate: jest.fn()
+  }
+
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [LoginComponent],
       providers: [
         AuthService,
         SessionService,
+        { provide: Router, useValue: mockRouter }
       ],
       imports: [
         RouterTestingModule,
