@@ -56,8 +56,7 @@ describe('LoginComponent', () => {
         MatIconModule,
         MatFormFieldModule,
         MatInputModule,
-        ReactiveFormsModule,
-        FormBuilder]
+        ReactiveFormsModule]
     })
       .compileComponents();
     fixture = TestBed.createComponent(LoginComponent);
