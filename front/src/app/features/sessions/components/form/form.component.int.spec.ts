@@ -18,6 +18,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { HttpClientModule } from '@angular/common/http';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
+import { AppRoutingModule } from '../../../../app-routing.module'
 
 describe('FormComponent Integration Tests', () => {
   let component: FormComponent;
@@ -90,7 +91,8 @@ describe('FormComponent Integration Tests', () => {
         ReactiveFormsModule,
         MatSnackBarModule,
         MatSelectModule,
-        BrowserAnimationsModule
+        BrowserAnimationsModule,
+        AppRoutingModule
       ],
       providers: [
         { provide: SessionApiService, useValue: { detail: jest.fn(), create: jest.fn(), update: jest.fn() } },
