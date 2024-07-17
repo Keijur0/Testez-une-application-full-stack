@@ -1,6 +1,6 @@
 import { HttpClientModule } from '@angular/common/http';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
+import { ReactiveFormsModule } from '@angular/forms';
 import { MatCardModule } from '@angular/material/card';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
@@ -8,45 +8,31 @@ import { MatInputModule } from '@angular/material/input';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterTestingModule } from '@angular/router/testing';
 import { expect } from '@jest/globals';
-import { SessionService } from 'src/app/services/session.service';
 import { LoginComponent } from './login.component';
 import { AuthService } from '../../services/auth.service';
 import { Router } from '@angular/router';
 import { of, throwError } from 'rxjs';
+import { SessionService } from 'src/app/services/session.service';
 import { SessionInformation } from 'src/app/interfaces/sessionInformation.interface';
 
-describe('LoginComponent', () => {
+describe('LoginComponent Integration Tests', () => {
   let component: LoginComponent;
   let fixture: ComponentFixture<LoginComponent>;
-  let mockAuthService: any;
-  let mockRouter: any;
-  let mockSessionService: any;
+  let authService: AuthService;
+  let router: Router;
+  let sessionService: SessionService;
+
+  const mockRouter = {
+    navigate: jest.fn()
+  }
 
   beforeEach(async () => {
-    mockAuthService = {
-      login: jest.fn()
-    };
-    mockRouter = {
-      navigate: jest.fn()
-    };
-    mockSessionService = {
-      logIn: jest.fn()
-    };
     await TestBed.configureTestingModule({
       declarations: [LoginComponent],
       providers: [
-        {
-          provide: AuthService,
-          useValue: mockAuthService
-        },
-        {
-          provide: Router,
-          useValue: mockRouter
-        },
-        {
-          provide: SessionService,
-          useValue: mockSessionService
-        }
+        AuthService,
+        SessionService,
+        { provide: Router, useValue: mockRouter }
       ],
       imports: [
         RouterTestingModule,
@@ -56,11 +42,15 @@ describe('LoginComponent', () => {
         MatIconModule,
         MatFormFieldModule,
         MatInputModule,
-        ReactiveFormsModule]
-    })
-      .compileComponents();
+        ReactiveFormsModule
+      ]
+    }).compileComponents();
+
     fixture = TestBed.createComponent(LoginComponent);
     component = fixture.componentInstance;
+    authService = TestBed.inject(AuthService);
+    router = TestBed.inject(Router);
+    sessionService = TestBed.inject(SessionService);
     fixture.detectChanges();
   });
 
@@ -69,9 +59,12 @@ describe('LoginComponent', () => {
   });
 
   it('should show error message on failed login', () => {
-    mockAuthService.login.mockReturnValue(throwError(() => new Error('error')));
+    jest.spyOn(authService, 'login').mockReturnValue(throwError(() => new Error('error')));
     component.submit();
+    fixture.detectChanges();
     expect(component.onError).toBe(true);
+    const errorMsg = fixture.nativeElement.querySelector('.error');
+    expect(errorMsg).toBeTruthy();
   });
 
   it('should navigate to /sessions on successful login', () => {
@@ -83,12 +76,14 @@ describe('LoginComponent', () => {
       firstName: 'John',
       lastName: 'Wick',
       admin: false
-    }
+    };
 
-    mockAuthService.login.mockReturnValue(of(sessionInformation));
+    jest.spyOn(authService, 'login').mockReturnValue(of(sessionInformation));
+    const navigateSpy = jest.spyOn(router, 'navigate');
+    const logInSpy = jest.spyOn(sessionService, 'logIn');
     component.submit();
-    expect(mockSessionService.logIn).toBeCalledWith(sessionInformation);
-    expect(mockRouter.navigate).toBeCalledWith(['/sessions']);
+    expect(logInSpy).toBeCalledWith(sessionInformation);
+    expect(navigateSpy).toBeCalledWith(['/sessions']);
   });
 
   it('should have form controls', () => {
@@ -97,18 +92,22 @@ describe('LoginComponent', () => {
   });
 
   it('should disable submit button if email is empty', () => {
-    let email = component.form.get('email');
-    let password = component.form.get('password');
+    const email = component.form.get('email');
+    const password = component.form.get('password');
     email?.setValue('');
     password?.setValue('test!1234');
-    expect(component.form.valid).toBe(false);
+    fixture.detectChanges();
+    const submitButton = fixture.nativeElement.querySelector('button[type="submit"]');
+    expect(submitButton.disabled).toBe(true);
   });
 
   it('should disable submit button if password is empty', () => {
-    let email = component.form.get('email');
-    let password = component.form.get('password');
-    email?.setValue('test@test.com')
+    const email = component.form.get('email');
+    const password = component.form.get('password');
+    email?.setValue('test@test.com');
     password?.setValue('');
-    expect(component.form.valid).toBe(false);
+    fixture.detectChanges();
+    const submitButton = fixture.nativeElement.querySelector('button[type="submit"]');
+    expect(submitButton.disabled).toBe(true);
   });
 });
