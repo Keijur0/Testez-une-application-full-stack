@@ -11,6 +11,11 @@ import { of } from 'rxjs';
 import { ActivatedRoute, Router } from '@angular/router';
 import { SessionApiService } from '../../services/session-api.service';
 import { TeacherService } from 'src/app/services/teacher.service';
+import { MatCardModule } from '@angular/material/card';
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 
 describe('DetailComponent', () => {
@@ -94,10 +99,14 @@ describe('DetailComponent', () => {
     beforeEach(async () => {
       await TestBed.configureTestingModule({
         imports: [
+          ReactiveFormsModule,
           RouterTestingModule,
           HttpClientModule,
-          MatSnackBarModule,
-          ReactiveFormsModule
+          MatCardModule,
+          MatButtonModule,
+          MatIconModule,
+          MatProgressSpinnerModule,
+          BrowserAnimationsModule
         ],
         declarations: [DetailComponent], 
         providers: [
@@ -154,10 +163,14 @@ describe('DetailComponent', () => {
     beforeEach(async () => {
       await TestBed.configureTestingModule({
         imports: [
+          ReactiveFormsModule,
           RouterTestingModule,
           HttpClientModule,
-          MatSnackBarModule,
-          ReactiveFormsModule
+          MatCardModule,
+          MatButtonModule,
+          MatIconModule,
+          MatProgressSpinnerModule,
+          BrowserAnimationsModule
         ],
         declarations: [DetailComponent], 
         providers: [
@@ -214,10 +227,14 @@ describe('DetailComponent', () => {
     beforeEach(async () => {
       await TestBed.configureTestingModule({
         imports: [
+          ReactiveFormsModule,
           RouterTestingModule,
           HttpClientModule,
-          MatSnackBarModule,
-          ReactiveFormsModule
+          MatCardModule,
+          MatButtonModule,
+          MatIconModule,
+          MatProgressSpinnerModule,
+          BrowserAnimationsModule
         ],
         declarations: [DetailComponent], 
         providers: [

@@ -13,7 +13,7 @@ import { of, throwError } from 'rxjs';
 import { expect } from '@jest/globals';
 import { Router } from '@angular/router';
 
-describe('RegisterComponent', () => {
+describe('RegisterComponent Integration Tests', () => {
   let component: RegisterComponent;
   let fixture: ComponentFixture<RegisterComponent>;
   let authService: AuthService;

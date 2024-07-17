@@ -15,7 +15,7 @@ import { of, throwError } from 'rxjs';
 import { SessionService } from 'src/app/services/session.service';
 import { SessionInformation } from 'src/app/interfaces/sessionInformation.interface';
 
-describe('LoginComponent Integration', () => {
+describe('LoginComponent Integration Tests', () => {
   let component: LoginComponent;
   let fixture: ComponentFixture<LoginComponent>;
   let authService: AuthService;

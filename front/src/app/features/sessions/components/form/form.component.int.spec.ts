@@ -212,7 +212,7 @@ describe('FormComponent Integration Tests', () => {
   });
 
   it('should navigate back when the back button is clicked', () => {
-    const backButton = fixture.nativeElement.querySelector('button[mat-icon-button]');
+    const backButton = fixture.nativeElement.querySelector('button[routerLink="/sessions"]');
     backButton.click();
     expect(router.navigate).toBeCalledWith(['sessions']);
   });
