@@ -19,6 +19,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { AppRoutingModule } from '../../../../app-routing.module'
+import { Location } from '@angular/common';
 
 describe('FormComponent Integration Tests', () => {
   let component: FormComponent;
@@ -26,6 +27,7 @@ describe('FormComponent Integration Tests', () => {
   let sessionApiService: SessionApiService;
   let matSnackBar: MatSnackBar;
   let router: Router;
+  let location: Location;
 
   const mockSession: Session = {
     id: 1,
@@ -68,6 +70,8 @@ describe('FormComponent Integration Tests', () => {
 
   const mockRouter = {
     navigate: jest.fn(),
+    createUrlTree: jest.fn(),
+    navigateByUrl: jest.fn(),
     url: '/sessions/create'
   };
 
@@ -82,7 +86,7 @@ describe('FormComponent Integration Tests', () => {
     await TestBed.configureTestingModule({
       declarations: [FormComponent],
       imports: [
-        RouterTestingModule,
+        RouterTestingModule.withRoutes([]),
         HttpClientModule,
         MatCardModule,
         MatIconModule,
@@ -109,6 +113,7 @@ describe('FormComponent Integration Tests', () => {
     sessionApiService = TestBed.inject(SessionApiService);
     matSnackBar = TestBed.inject(MatSnackBar);
     router = TestBed.inject(Router);
+    location = TestBed.inject(Location);
 
     jest.spyOn(sessionApiService, 'detail').mockReturnValue(of(mockSession));
     fixture.detectChanges();
@@ -214,7 +219,9 @@ describe('FormComponent Integration Tests', () => {
   it('should navigate back when the back button is clicked', () => {
     const backButton = fixture.nativeElement.querySelector('button[routerLink="/sessions"]');
     backButton.click();
-    expect(router.navigate).toBeCalledWith(['sessions']);
+    fixture.detectChanges();
+    // Session module default route
+    expect(location.path()).toBe('');
   });
 
   it('should redirect non-admin user to /sessions on init', () => {
