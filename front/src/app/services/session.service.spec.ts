@@ -9,7 +9,7 @@ describe('SessionService', () => {
 
   const mockUser: SessionInformation = {
     token: '123',
-    type: 'user',
+    type: 'Bearer',
     id: 1,
     username: 'johnwick',
     firstName: 'John',

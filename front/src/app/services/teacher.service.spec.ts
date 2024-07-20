@@ -14,15 +14,15 @@ describe('TeacherService', () => {
   const mockTeachers: Teacher[] = [
   {
     id: 1,
-    lastName: 'Doe',
+    lastName: 'Wick',
     firstName: 'John',
     createdAt: mockDate,
     updatedAt: mockDate
   },
   {
     id: 2,
-    lastName: 'Doe',
-    firstName: 'Jane',
+    lastName: 'Wick',
+    firstName: 'NotJohn',
     createdAt: mockDate,
     updatedAt: mockDate
   }
